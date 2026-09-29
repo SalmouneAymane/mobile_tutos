@@ -1,6 +1,6 @@
 // i dellete whit name instead of id 
 document.addEventListener('DOMContentLoaded', () => {
-const API = "http://localhost:8000/backend/categorie.php";
+const API = "../backend/categorie.php";
 const show_form = document.querySelector("#btn_show_form");
 const section_form = document.querySelector("#section_form");
 const cancel_form = document.querySelector("#btn_cancel_form");
