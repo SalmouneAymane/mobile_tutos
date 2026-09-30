@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catégories</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="max-w-4xl mx-auto p-6">
+        <header class="bg-white p-4 rounded shadow-sm mb-6">
+            <h1 class="text-2xl font-bold">Gestion des catégories</h1>
+        </header>
+
+        <div class="mb-6">
+            <button id="btn_show_form" type="button" class="bg-blue-500 text-white px-4 py-2 rounded">Nouvelle catégorie</button>
+        </div>
+
+        <form id="section_form" hidden class="bg-white p-4 rounded shadow-sm mb-6">
+            <div class="grid gap-4 md:grid-cols-2">
+                <label class="block">
+                    <span class="block mb-1 font-medium">Nom</span>
+                    <input type="text" name="name" id="form_name" class="w-full border border-gray-300 rounded p-2" required>
+                </label>
+
+                <label class="block">
+                    <span class="block mb-1 font-medium">Couleur</span>
+                    <input type="text" name="color" id="form_color" class="w-full border border-gray-300 rounded p-2" required>
+                </label>
+            </div>
+
+            <div class="mt-4 flex gap-3">
+                <button id="btn_cancel_form" type="button" class="bg-gray-200 px-4 py-2 rounded">Annuler</button>
+                <button id="btn_submit_form" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enregistrer</button>
+            </div>
+        </form>
+
+        <section class="bg-white rounded shadow-sm overflow-hidden">
+            <h2 class="p-4 border-b font-semibold">Toutes les catégories</h2>
+
+            <table id="table" class="w-full text-left">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="p-3">Nom</th>
+                        <th class="p-3">Couleur</th>
+                        <th class="p-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="table_body"></tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="js/func.js"></script>
+</body>
+</html>
