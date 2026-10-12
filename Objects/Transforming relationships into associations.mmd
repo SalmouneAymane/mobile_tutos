@@ -1,0 +1,31 @@
+classDiagram
+    class CATEGORIE{
+        -int id
+        -string nom
+        -string color
+        -string icone
+    }
+    class USER{
+        -int id_user
+        -string email
+        -string password
+        -string role
+    }
+    class AUTEUR{
+        -int id_auteur
+        -string nom
+        -string prenom
+        -string biographie
+        -string avatar
+    }
+    class ARTICLE{
+        -int id_article
+        -string tittle
+        -string contenu
+        -string status
+        -DateTime date_creation
+    }
+
+    CATEGORIE "1" -- "0..*" ARTICLE : contient
+    AUTEUR "1" -- "0..*" ARTICLE : rédige
+    USER "1" -- "0..1" AUTEUR : possède
