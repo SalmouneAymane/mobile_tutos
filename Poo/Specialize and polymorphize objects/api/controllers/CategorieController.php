@@ -12,10 +12,20 @@ foreach ($categories as $categorie) {
 }
 
 $users = [
-    new User(),
-    new Auteur(),
+    new User(1, 'visiteur@example.com', 'secret', 'Visiteur anonyme'),
+    new User(
+        2,
+        'auteur@example.com',
+        'secret',
+        'Auteur publié',
+        new Auteur(1, 'Dupont', 'Amine', 'Auteur du blog.', 'amine.png')
+    ),
 ];
 
 foreach ($users as $user) {
     echo $user->getRoleName() . '<br>';
+
+    if ($user->getAuteur() !== null) {
+        echo $user->getAuteur()->getNomComplet() . '<br>';
+    }
 }

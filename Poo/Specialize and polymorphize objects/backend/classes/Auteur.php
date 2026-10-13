@@ -1,17 +1,29 @@
 <?php
 
-require_once __DIR__ . '/User.php';
-
-class Auteur extends User
+class Auteur
 {
-    protected int $id_auteur;
-    protected string $nom;
-    protected string $prenom;
-    protected string $biographie;
-    protected string $avatar;
+    private int $id_auteur;
+    private string $nom;
+    private string $prenom;
+    private string $biographie;
+    private string $avatar;
 
-    public function getRoleName(): string
+    public function __construct(
+        int $id_auteur,
+        string $nom,
+        string $prenom,
+        string $biographie,
+        string $avatar
+    ) {
+        $this->id_auteur = $id_auteur;
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->biographie = $biographie;
+        $this->avatar = $avatar;
+    }
+
+    public function getNomComplet(): string
     {
-        return "Auteur publié";
+        return $this->prenom . ' ' . $this->nom;
     }
 }
