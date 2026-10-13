@@ -1,4 +1,4 @@
-// i dellete whit name instead of id 
+2// i dellete whit name instead of id 
 document.addEventListener('DOMContentLoaded', () => {   
 const API = "../backend/categorie.php";
 const show_form = document.querySelector("#btn_show_form");
