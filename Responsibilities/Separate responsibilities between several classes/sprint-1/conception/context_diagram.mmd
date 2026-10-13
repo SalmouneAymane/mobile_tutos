@@ -1,0 +1,11 @@
+usecase-beta
+
+    actor Administrateur
+    actor Auteur
+    actor Visiteur
+    
+    Blog["Blog Spartel"]
+    
+    Administrateur -- "Gère catégories/auteurs, valide/publie articles" --> Blog
+    Auteur -- "Rédige articles, gère profil/mot de passe" --> Blog
+    Visiteur -- "Consulte les articles publiés" --> Blog
