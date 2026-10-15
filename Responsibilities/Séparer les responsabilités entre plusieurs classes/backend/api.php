@@ -1,8 +1,7 @@
 <?php
-require_once __DIR__ . '/Categorie.php';
 require_once __DIR__ . '/classes/GestionCategorie.php';
 
-header('Content-Type: application/json; charset=utf-8');
+header('Content-Type: application/json');
 
 try {
     $method = $_SERVER['REQUEST_METHOD'];
@@ -80,7 +79,7 @@ try {
         $inputJSON = file_get_contents('php://input');
         $input = json_decode($inputJSON, true);
         
-        if (isset($input['id']) && (is_int($input['id']) || is_string($input['id']))) {
+        if (isset($input['id'])) {
             if ($gestionCategorie->delete($input['id'])) {
                 echo json_encode([
                     'status' => 'success',
@@ -90,7 +89,7 @@ try {
                 throw new Exception("Catégorie introuvable ou erreur de suppression.");
             }
         } else {
-            throw new Exception("ID manquant ou invalide pour la suppression.");
+            throw new Exception("ID manquant pour la suppression.");
         }
     } else {
         throw new Exception("Méthode HTTP non supportée.");

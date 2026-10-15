@@ -3,33 +3,24 @@ require_once __DIR__ . '/../Categorie.php';
 
 class GestionCategorie
 {
-    private static string $dataFile = __DIR__ . '/../data/categories.json';
+    private static $dataFile = __DIR__ . '/../data/categories.json';
 
     /**
      * @return Categorie[]
      */
-    public function getAll(): array
-    {
+    public function getAll(): array {
         if (!file_exists(self::$dataFile)) {
             return [];
         }
 
-        $json = @file_get_contents(self::$dataFile);
-        if ($json === false) {
-            throw new RuntimeException('Impossible de lire le fichier des catégories.');
-        }
-
-        $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        $json = file_get_contents(self::$dataFile);
+        $data = json_decode($json, true);
         if (!is_array($data)) {
-            throw new UnexpectedValueException('Le fichier des catégories doit contenir une liste JSON.');
+            return [];
         }
 
         $categories = [];
         foreach ($data as $item) {
-            if (!is_array($item)) {
-                throw new UnexpectedValueException('Une catégorie du fichier JSON est invalide.');
-            }
-
             $categories[] = new Categorie(
                 $item['nom'] ?? '',
                 $item['couleur'] ?? '',
@@ -41,13 +32,14 @@ class GestionCategorie
         return $categories;
     }
 
-    public function create(Categorie $categorie): bool
-    {
+    public function create($categorie) {
         $categories = $this->getAll();
         $maxId = 0;
 
         foreach ($categories as $existingCategorie) {
-            $maxId = max($maxId, (int) $existingCategorie->getId());
+            if ($existingCategorie->getId() > $maxId) {
+                $maxId = $existingCategorie->getId();
+            }
         }
 
         $categorie->setId($maxId + 1);
@@ -56,16 +48,11 @@ class GestionCategorie
         return $this->saveAll($categories);
     }
 
-    public function update(Categorie $categorie): bool
-    {
-        if ($categorie->getId() === null) {
-            return false;
-        }
-
+    public function update($categorie) {
         $categories = $this->getAll();
-        foreach ($categories as $index => $existingCategorie) {
+        foreach ($categories as $key => $existingCategorie) {
             if ($existingCategorie->getId() == $categorie->getId()) {
-                $categories[$index] = $categorie;
+                $categories[$key] = $categorie;
                 return $this->saveAll($categories);
             }
         }
@@ -73,30 +60,25 @@ class GestionCategorie
         return false;
     }
 
-    public function delete(int|string $id): bool
-    {
-        if ($id === '') {
-            return false;
-        }
-
+    public function delete($id) {
+        if (!$id) return false;
         $categories = $this->getAll();
-        $remainingCategories = array_filter(
-            $categories,
-            static fn (Categorie $categorie): bool => $categorie->getId() != $id
-        );
+        $initialCount = count($categories);
 
-        if (count($remainingCategories) === count($categories)) {
-            return false;
+        $categories = array_filter($categories, function($categorie) use ($id) {
+            return $categorie->getId() != $id;
+        });
+
+        if (count($categories) < $initialCount) {
+            return $this->saveAll(array_values($categories));
         }
-
-        return $this->saveAll(array_values($remainingCategories));
+        return false;
     }
 
     /**
      * @param Categorie[] $categories
      */
-    private function saveAll(array $categories): bool
-    {
+    private function saveAll($categories) {
         $data = [];
         foreach ($categories as $categorie) {
             $data[] = [
@@ -107,7 +89,7 @@ class GestionCategorie
             ];
         }
 
-        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
-        return file_put_contents(self::$dataFile, $json, LOCK_EX) !== false;
+        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        return file_put_contents(self::$dataFile, $json) !== false;
     }
 }
