@@ -2,6 +2,10 @@
 
 Bienvenue dans le code source du Sprint 1. Ce dossier contient la première version de l'application de gestion de contenus (Blog).
 
+La classe `backend/Categorie.php` représente une catégorie. La classe
+`backend/classes/GestionCategorie.php` lit et enregistre les catégories dans
+`backend/data/categories.json` et centralise les opérations CRUD utilisées par l'API.
+
 L'objectif de ce sprint est de poser les bases : développement du premier CRUD avec la Programmation Orientée Objet (POO), construction de l'interface avec Tailwind CSS, et initiation à la communication asynchrone (SPA).
 
 Consultez le fichier `cahier_des_charges.md` pour le détail des étapes à réaliser.

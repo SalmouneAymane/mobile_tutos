@@ -1,22 +1,24 @@
 <?php
-require_once 'Categorie.php';
+require_once __DIR__ . '/Categorie.php';
+require_once __DIR__ . '/classes/GestionCategorie.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
 try {
     $method = $_SERVER['REQUEST_METHOD'];
+    $gestionCategorie = new GestionCategorie();
 
     if ($method === 'GET') {
         // --- LECTURE (GET) ---
-        $categories = Categorie::readAll();
+        $categories = $gestionCategorie->getAll();
         
         // Initialiser avec 2 données par défaut si c'est vide pour l'apprentissage
         if (empty($categories)) {
             $cat1 = new Categorie("Développement Web", "Bleu", "Code");
-            $cat1->create();
+            $gestionCategorie->create($cat1);
             $cat2 = new Categorie("Design UI/UX", "Rose", "Pinceau");
-            $cat2->create();
-            $categories = Categorie::readAll(); // re-lire après création
+            $gestionCategorie->create($cat2);
+            $categories = $gestionCategorie->getAll(); // re-lire après création
         }
 
         $response = [];
@@ -42,7 +44,7 @@ try {
         
         if (isset($input['nom']) && isset($input['couleur']) && isset($input['icone'])) {
             $newCat = new Categorie($input['nom'], $input['couleur'], $input['icone']);
-            if ($newCat->create()) {
+            if ($gestionCategorie->create($newCat)) {
                 echo json_encode([
                     'status' => 'success',
                     'message' => 'Catégorie ajoutée avec succès !'
@@ -61,7 +63,7 @@ try {
         
         if (isset($input['id']) && isset($input['nom']) && isset($input['couleur']) && isset($input['icone'])) {
             $cat = new Categorie($input['nom'], $input['couleur'], $input['icone'], $input['id']);
-            if ($cat->update()) {
+            if ($gestionCategorie->update($cat)) {
                 echo json_encode([
                     'status' => 'success',
                     'message' => 'Catégorie modifiée avec succès !'
@@ -78,9 +80,8 @@ try {
         $inputJSON = file_get_contents('php://input');
         $input = json_decode($inputJSON, true);
         
-        if (isset($input['id'])) {
-            $cat = new Categorie(null, null, null, $input['id']);
-            if ($cat->delete()) {
+        if (isset($input['id']) && (is_int($input['id']) || is_string($input['id']))) {
+            if ($gestionCategorie->delete($input['id'])) {
                 echo json_encode([
                     'status' => 'success',
                     'message' => 'Catégorie supprimée avec succès !'
@@ -89,7 +90,7 @@ try {
                 throw new Exception("Catégorie introuvable ou erreur de suppression.");
             }
         } else {
-            throw new Exception("ID manquant pour la suppression.");
+            throw new Exception("ID manquant ou invalide pour la suppression.");
         }
     } else {
         throw new Exception("Méthode HTTP non supportée.");
