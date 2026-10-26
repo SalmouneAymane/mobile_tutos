@@ -37,10 +37,10 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 flex h-screen overflow-hidden">
+<body class="bg-gray-100 text-gray-800 flex h-screen overflow-hidden md:flex-row min-h-screen">
 
     <!-- BARRE LATÉRALE (Sidebar) -->
-    <aside class="w-64 bg-gray-900 text-white flex flex-col hidden md:flex">
+    <aside class="w-64 bg-gray-900 text-white flex flex-col hidden md:block">
         <div class="p-6 border-b border-gray-800">
             <h2 class="text-xl font-bold">Admin Blog</h2>
             <p class="text-xs text-primary-500 mt-1 uppercase font-semibold tracking-wider">Sprint 1</p>
@@ -54,7 +54,7 @@
     </aside>
 
     <!-- CONTENU PRINCIPAL -->
-    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+    <div class="flex-1 min-w-0 flex flex-col h-screen overflow-hidden">
         
         <!-- ENTÊTE (Header) -->
         <header class="bg-white h-16 border-b border-gray-200 flex items-center justify-between px-6">
@@ -67,8 +67,8 @@
         </header>
 
         <!-- ZONE DE TRAVAIL (Main) -->
-        <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
-            <div class="max-w-5xl mx-auto space-y-8">
+        <main class="flex-1 min-w-0 overflow-y-auto p-6 bg-gray-50">
+            <div class="max-w-5xl min-w-0 mx-auto space-y-8">
                 
                 <!-- SECTION 1 : EN-TÊTE DE LA PAGE -->
                 <div class="flex justify-between items-center">
@@ -85,7 +85,7 @@
                 <!-- SECTION 2 : FORMULAIRE D'AJOUT/MODIFICATION (Caché par défaut) -->
                 <div id="section-form" class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hidden">
                     <h2 class="text-lg font-bold mb-4">Ajouter / Modifier une catégorie</h2>
-                    <form id="form-categorie" class="space-y-4">
+                    <form id="form-categorie" class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Champ caché pour l'ID -->
                         <input type="hidden" id="cat-id" value="">
                         
@@ -133,8 +133,9 @@
                 </div>
 
                 <!-- SECTION 3 : LISTE DES CATÉGORIES -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <table class="w-full text-left border-collapse">
+                <!-- Scroll horizontally when the table is wider than its container. -->
+                <div class="w-full min-w-0 bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto overscroll-x-contain">
+                    <table class="w-full min-w-[640px] text-left border-collapse">
                         <thead class="bg-gray-50 border-b border-gray-200">
                             <tr>
                                 <th class="p-4 text-sm font-semibold text-gray-500 uppercase">ID</th>
