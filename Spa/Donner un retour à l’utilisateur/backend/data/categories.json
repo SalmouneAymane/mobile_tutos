@@ -34,5 +34,11 @@
         "nom": "tststs",
         "couleur": "Rose",
         "icone": "Pinceau"
+    },
+    {
+        "id": 7,
+        "nom": "da",
+        "couleur": "Bleu",
+        "icone": "Pinceau"
     }
 ]

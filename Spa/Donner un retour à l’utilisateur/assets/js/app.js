@@ -7,10 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const sectionForm = document.getElementById('section-form');
     const formCategorie = document.getElementById('form-categorie');
     const btnEnregistrer = document.getElementById('btn-enregistrer-categorie');
+    const saveSpinner = btnEnregistrer.querySelector('[data-loading-spinner]');
+    const saveButtonLabel = btnEnregistrer.querySelector('[data-button-label]');
 
     function setLoadingState(isLoading) {
         btnEnregistrer.disabled = isLoading;
-        btnEnregistrer.textContent = isLoading ? 'Enregistrement…' : 'Enregistrer';
+        saveSpinner.classList.toggle('hidden', !isLoading);
+        saveButtonLabel.textContent = isLoading ? 'Enregistrement…' : 'Enregistrer';
     }
 
     // ==========================================
@@ -171,18 +174,17 @@ document.addEventListener('DOMContentLoaded', () => {
     chargerCategories();
 
     function showToast(message, type = 'success') {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    
-    // NB: Vous modifierez ces classes plus tard avec Tailwind !
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    
-    container.appendChild(toast);
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        const colorClass = type === 'error' ? 'bg-red-500' : 'bg-green-500';
 
-    // Disparition automatique après 3 secondes
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
-}
+        toast.className = `text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 ${colorClass}`;
+        toast.textContent = message;
+        container.appendChild(toast);
+
+        // Disparition automatique après 3 secondes
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
 });

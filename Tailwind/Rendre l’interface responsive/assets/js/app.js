@@ -44,9 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
             tr.className = "hover:bg-gray-50";
             
             tr.innerHTML = `
-                <td class="p-4 text-sm text-gray-500">#${cat.id}</td>
                 <td class="p-4 text-sm font-bold text-gray-900">${cat.nom}</td>
-                <td class="p-4 text-sm text-gray-600">${cat.couleur}</td>
+                <td class="p-4 text-sm text-gray-600 hidden md:block">${cat.couleur}</td>
                 <td class="p-4 text-right space-x-2">
                     <button onclick="editerCategorie(${cat.id}, '${cat.nom.replace(/'/g, "\\'")}', '${cat.couleur}', '${cat.icone}')" class="text-primary-600 hover:underline text-sm font-medium">Éditer</button>
                     <button onclick="supprimerCategorie(${cat.id})" class="text-red-600 hover:underline text-sm font-medium">Supprimer</button>
